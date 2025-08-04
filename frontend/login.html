@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Music Generation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            display: none; /* Hidden by default */
+        }
+        .message.success {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+        .message.error {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="min-h-screen flex flex-col items-center justify-center p-4" style="background-image: url('https://www.transparenttextures.com/patterns/stardust.png');">
+
+        <header class="text-center mb-10">
+            <h1 class="text-5xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+                AI Music Generation
+            </h1>
+            <p class="text-lg text-gray-300">Login to your account</p>
+        </header>
+
+        <main class="w-full max-w-md">
+            <div class="glassmorphism rounded-2xl shadow-lg p-8">
+                <div id="message-container" class="message"></div>
+                <form id="login-form">
+                    <div class="mb-6">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-300">Your email</label>
+                        <input type="email" id="email" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-300">Your password</label>
+                        <div class="relative">
+                            <input type="password" id="password" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5" required>
+                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400">
+                                <svg id="eye-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <svg id="eye-closed" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a10.05 10.05 0 013.453-5.118m7.538 9.428a10.003 10.003 0 004.453-2.31M5 5.05A10.005 10.005 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.05 10.05 0 01-1.543 3.391m-1.882-1.882a3 3 0 10-4.242-4.242M9 12a3 3 0 116 0 3 3 0 01-6 0z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-600 rounded bg-gray-800 focus:ring-3 focus:ring-purple-600">
+                            </div>
+                            <label for="remember" class="ml-2 text-sm font-medium text-gray-300">Remember me</label>
+                        </div>
+                        <a href="#" class="text-sm text-purple-400 hover:underline">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="w-full text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 focus:ring-4 focus:outline-none focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        Login to your account
+                    </button>
+                    <p class="text-sm font-light text-gray-400 mt-6 text-center">
+                        Don’t have an account yet? <a href="/signup" class="font-medium text-purple-400 hover:underline">Sign up</a>
+                    </p>
+                </form>
+            </div>
+        </main>
+
+        <footer class="text-center mt-10 text-gray-500">
+            <p>&copy; 2025 Your Name. A Major Project for B.Tech CSE.</p>
+        </footer>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const eyeOpen = document.getElementById('eye-open');
+        const eyeClosed = document.getElementById('eye-closed');
+        const messageContainer = document.getElementById('message-container');
+
+        // Function to display messages to the user
+        function showMessage(message, type) {
+            messageContainer.textContent = message;
+            messageContainer.className = `message ${type}`;
+            messageContainer.style.display = 'block';
+        }
+
+        togglePassword.addEventListener('click', function (e) {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            eyeOpen.classList.toggle('hidden');
+            eyeClosed.classList.toggle('hidden');
+        });
+
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = passwordInput.value;
+            const remember = document.getElementById('remember').checked;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, remember }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage(result.message, 'success');
+                    // Redirect to dashboard after a short delay
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1000);
+                } else {
+                    showMessage(result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Login failed:', error);
+                showMessage('An error occurred during login. Please try again.', 'error');
+            }
+        });
+    </script>
+
+</body>
+</html>
